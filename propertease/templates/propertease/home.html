@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'propertease/css/card-style.css' %}">
+
+<!-- Filter -->
+<div class="container mb-4">
+    <form method="GET" action="{% url 'propertease:home' %}">
+        <div class="row">
+        <div class="col-md-2">
+            <label for="property_type">Property Type:</label>
+            <select class="form-control" id="property_type" name="property_type">
+            <option value="">All</option>
+            {% for type in types %}
+            <option value="{{ type.id }}"> {{ type.name }} </option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" name="price">
+        </div>
+        <div class="col-md-2">
+            <label for="bedrooms">Bedrooms:</label>
+            <input type="number" class="form-control" id="bedrooms" name="bedrooms">
+        </div>
+        <div class="col-md-2">
+            <label for="bathrooms">Bathrooms:</label>
+            <input type="number" class="form-control" id="bathrooms" name="bathrooms">
+        </div>
+        <div class="col-md-2">
+            <label for="square_footage">Square Footage:</label>
+            <input type="number" class="form-control" id="square_footage" name="square_footage">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary mt-4">Filter results</button>
+        </div>
+        </div>
+    </form>
+    </div>
+
+
+{% if properties %}
+<div class="row">
+    {% for property in properties %}
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="square-image-wrapper">
+                <img src="{{ property.image.url }}" class="square-image" alt="...">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ property.title }}</h5>
+                <p class="card-text">{{ property.property_location }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Price: </strong>${{ property.price }}</li>
+                <li class="list-group-item"> Owner: <a href="{% url 'propertease:profile' profile_id=property.owner.id %}">{{ property.owner.username }} </a></li>
+            </ul>
+            <div class="card-body">
+                <a href="{% url 'propertease:property_detail' profile_id=property.owner.id property_id=property.id %}" class="btn btn-primary">Details</a>
+                <!-- <a href="#" class="card-link">Another link</a> -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

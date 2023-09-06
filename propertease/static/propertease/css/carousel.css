@@ -1,0 +1,11 @@
+.carousel-item img {
+	width: 100vh;
+	height: 70vh;
+	object-fit: cover;
+	overflow: hidden;
+}
+.carousel-caption {
+	background-color: rgba(255, 255, 255, 0.4); /* Adjust the opacity as needed */
+	color: white; /* Set the text color to a contrasting color */
+	border-radius: 20px;
+}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+{% if messages %}
+<div class="card">
+    <div class="card-header">
+        Message
+    </div>
+    <div class="card-body" style="height: 300px; overflow-y: scroll;">
+        <div id="message-container">
+            {% for message in messages %}
+                <div class="message-box">
+                    <b>{{ message.content }}</b>
+                    <footer>at {{ message.created_at }} by {{ message.user1 }}</footer>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<br>
+
+<form id="message-form" class="forms" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Send">
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Handle form submission
+        $('#message-form').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var formData = $(this).serialize(); // Get form data
+            var path = window.location.pathname;
+            var pathParts = path.split('/');
+            var userId = pathParts[1];
+
+            // Send AJAX POST request to save message
+            $.ajax({
+                url: "{% url 'propertease:save_message' user2_username=userId %}",  // Replace with your Django view URL for saving the message
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    // Clear form input
+                    $('#id_content').val('');
+
+                    // Append new message to message container
+                    $('#message-container').append(response.message_html);
+
+                    // Scroll to the bottom of the message container
+                    var messageContainer = document.getElementById('message-container');
+                    messageContainer.scrollTop = messageContainer.scrollHeight;
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

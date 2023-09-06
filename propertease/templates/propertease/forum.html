@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'propertease/css/card-style.css' %}">
+<a href="{% url 'propertease:thread_form' %}" class="btn btn-warning">Create thread</a> <br><br>
+{% for thread in threads %}
+<div class="card">
+	<h5 class="card-header">Thread</h5>
+	<div class="card-body">
+	<h5 class="card-title"> {{ thread.title }} </h5>
+	<p class="card-text"> {{thread.content}} </p>
+	<p class="card-text"><small class="text-body-secondary"> {{ thread.created_at }} </small></p>
+	<a href="{% url 'propertease:thread_detail' thread_id=thread.id %}" class="btn btn-primary">Read more</a>
+	</div>
+</div>
+{% endfor %}
+{% endblock %}

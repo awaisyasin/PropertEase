@@ -1,0 +1,14 @@
+@media (min-width: 768px){
+	.profile-card {
+	  display: flex;
+	  align-items: center;
+	}
+
+	.profile-card {
+		height: 200px;
+	}
+
+	.profile-card img {
+		width: 200px;
+	}
+}

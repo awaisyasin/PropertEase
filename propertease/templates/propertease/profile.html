@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block ofcontainer %}
+<!-- Alerts -->
+<link rel="stylesheet" href="{% static 'propertease/css/alert.css' %}">
+<div id="alert" class="alert">
+    <span class="message"></span>
+    <button class="close-btn" onclick="closeAlert()">Close</button>
+</div>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'propertease/css/card-style.css' %}">
+<link rel="stylesheet" href="{% static 'propertease/css/profile.css' %}">
+<div class="card profile-card mb-3">
+	<div class="row g-0">
+		<div class="col-lg-4">
+			<img src="{{ profile.profile_picture.url }}" class="img-fluid rounded-start" alt="...">
+		</div>
+		<div class="col-lg-8">
+			<div class="card-body">
+				<h5 class="card-title">{{ profile.username }}</h5>
+                {% if following %}
+                <button class="btn btn-primary" style="margin-right: 10px;">Following</button>
+                {% else %}
+                <button class="follow-button btn btn-primary" data-follower-id="{{ request.user.id }}" data-followee-id="{{ profile.id }}" style="margin-right: 10px;">Follow</button>
+                {% endif %}
+                <button class="btn btn-primary" id="chat-button" data-username="{{ request.user.username }}" data-person-to-contact="{{ profile.username }}" data-profile-id="{{ profile.id }}">Chat</button>
+				<p class="card-text"><strong>Email: </strong> {{ profile.email }}</p>
+				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    {% for property in profile.properties.all %}
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="square-image-wrapper">
+                <img src="{{ property.image.url }}" class="square-image" alt="...">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ property.title }}</h5>
+                <p class="card-text">{{ property.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+                <li class="list-group-item"> Owner: <a href="{% url 'propertease:profile' profile_id=property.owner.id %}">{{ property.owner.username }} </a></li>
+            </ul>
+            <div class="card-body">
+                <a href="{% url 'propertease:property_detail' profile_id=property.owner.id property_id=property.id %}" class="btn btn-primary">Details</a>
+                <!-- <a href="#" class="card-link">Another link</a> -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'propertease/js/chat.js' %}"></script>
+<script src="{% static 'propertease/js/follow.js' %}"></script>
+
+{% endblock %}

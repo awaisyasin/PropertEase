@@ -1,0 +1,28 @@
+.alert {
+	position: fixed;
+	top: 20px; /* Adjust the top position as needed */
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #f8d7da;
+	color: #721c24;
+	padding: 10px;
+	border: 1px solid #f5c6cb;
+	border-radius: 4px;
+	display: none;
+	z-index: 9999; /* Ensure a higher z-index value to place it above other elements */
+}
+
+.alert .message {
+	margin-right: 10px;
+}
+
+.alert .close-btn {
+	background-color: transparent;
+	border: none;
+	color: #721c24;
+	cursor: pointer;
+}
+
+.alert.show {
+	display: block;
+}

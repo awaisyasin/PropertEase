@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+	<link rel="stylesheet" href="{% static 'css/form.css' %}">
+	<form method="post" enctype="multipart/form-data" class="forms">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Submit"> <br><br>
+
+		<h4>Already have an account? Login here!</h4>
+		<a href="{% url 'accounts:login' %}" class="btn btn-warning"> Login here </a>
+	</form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<div class="card">
+	<div class="card-header">
+	Thread
+	</div>
+	<div class="card-body">
+	<h5 class="card-title">{{ thread.title  }}</h5>
+	<p class="card-text">{{ thread.content }} </p>
+	<p class="card-text" id="comment-box"><strong>By: </strong><a href="{% url 'propertease:profile' profile_id=thread.author.id %}">{{ thread.author.username }}</a> </p>
+	<p class="card-text"><small class="text-body-secondary"> {{ thread.created_at }} </small></p>
+	<a href="{% url 'propertease:forum' %}" class="btn btn-primary">Go back</a>
+	</div>
+</div>
+
+<br>
+
+<div class="card">
+	<div class="card-header">
+	Comments
+	</div>
+	<div class="card-body">
+		{% for comment in comments %}
+		<h5 class="card-title"><Strong>By: </Strong><a href="{% url 'propertease:profile' profile_id=comment.author.id %}">{{ comment.author.username }}</a></h5>
+		<p class="card-text"><strong>Comment: </strong>{{ comment.content }} </p>
+		<p class="card-text"><strong>Time: </strong>{{ comment.created_at }} </p>
+		<hr>
+		{% endfor %}
+	</div>
+	<form method="post" class=" forms">
+		<div id="comment-box">
+		{% csrf_token %}
+		{{ comment_form }}
+		<input type="submit" value="Submit">
+		</div>
+	</form>
+	<br>
+</div>
+
+<br>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block ofcontainer %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'propertease/css/carousel.css' %}">
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<div id="carouselExampleDark" class="carousel carousel-dark slide">
+	<div class="carousel-indicators">
+	<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+	<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+	</div>
+	<div class="carousel-inner">
+	<div class="carousel-item active" data-bs-interval="10000">
+		<img src="{{ property.image.url }}" class="d-block w-100" alt="...">
+		<div class="carousel-caption d-none d-md-block">
+		<h5>First slide label</h5>
+		<p>Some representative placeholder content for the first slide.</p>
+		</div>
+	</div>
+	<div class="carousel-item" data-bs-interval="2000">
+		<img src="{{ property.image.url }}" class="d-block w-100" alt="...">
+		<div class="carousel-caption d-none d-md-block">
+		<h5>Second slide label</h5>
+		<p>Some representative placeholder content for the second slide.</p>
+		</div>
+	</div>
+	<div class="carousel-item">
+		<img src="{{ property.image.url }}" class="d-block w-100" alt="...">
+		<div class="carousel-caption d-none d-md-block">
+		<h5>Third slide label</h5>
+		<p>Some representative placeholder content for the third slide.</p>
+		</div>
+	</div>
+	</div>
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	<span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+	<span class="visually-hidden">Next</span>
+	</button>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+{% endblock %}
+{% block content %}
+<div class="card">
+	<div class="card-header">
+	Featured
+	</div>
+	<div class="card-body">
+	<h5 class="card-title">{{ property.title }}</h5>
+	<p class="card-text">{{ property.description }} </p>
+	<p class="card-text"><strong>Property type: </strong>{{ property.property_type }} </p>
+	<p class="card-text"><strong>Property location: </strong>{{ property.property_location }} </p>
+	<p class="card-text"><strong>Price: </strong>${{ property.price }} </p>
+	<p class="card-text"><strong>Bedrooms: </strong>{{ property.bedrooms }} </p>
+	<p class="card-text"><strong>Bathrooms: </strong>{{ property.bathrooms }} </p>
+	<p class="card-text"><strong>Square footage: </strong>{{ property.square_footage }} </p>
+	<p class="card-text"><strong>Amenities: </strong>{{ property.amenities }} </p>
+	<p class="card-text" id="comment-box"><strong>Property owner: </strong><a href="{% url 'propertease:profile' profile_id=property.owner.id %}">{{ property.owner.username }}</a> </p>
+	<a href="{% url 'propertease:home' %}" class="btn btn-primary">Go back</a>
+	</div>
+</div>
+
+<br>
+
+<div class="card">
+	<div class="card-header">
+	Reviews
+	</div>
+	<div class="card-body">
+		{% for review in reviews %}
+		<h5 class="card-title"><Strong>By: </Strong><a href="{% url 'propertease:profile' profile_id=review.user.id %}">{{ review.user.username }}</a></h5>
+		<p class="card-text"><strong>Review: </strong>{{ review.review_text }} </p>
+		<p class="card-text"><strong>Time: </strong>{{ review.timestamp }} </p>
+		<hr>
+		{% endfor %}
+	</div>
+	<form method="post"class=" forms">
+		{% csrf_token %}
+		{{ review_form }}
+		{% if request.user.is_authenticated %}
+		<input type="submit" value="Submit">
+		{% else %}
+		<a href="{% url 'accounts:login' %}" class="btn btn-primary">Login to comment</a>
+		{% endif %}
+	</form>
+	<br>
+</div>
+
+<br>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+.card {
+	margin-bottom: 20px;
+}
+.card-text {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.square-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* Maintain aspect ratio (1:1) */
+  overflow: hidden;
+}
+
+.square-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Maintain aspect ratio and fill the container */
+}
+
+/* Media Query for Tablet View */
+@media (max-width: 992px) {
+  .card {
+    flex-basis: calc(50% - 1rem);
+  }
+}
+
+/* Media Query for Mobile View */
+@media (max-width: 576px) {
+  .card {
+    flex-basis: 100%;
+
+  }
+}
