@@ -4,8 +4,10 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'propertease/css/card-style.css' %}">
 
+<a class="btn btn-primary mx-3" href="{% url 'propertease:property_form' %}">Post Ad</a>
+
 <!-- Filter -->
-<div class="container mb-4">
+<div class="container mb-3  px-3">
     <form method="GET" action="{% url 'propertease:home' %}">
         <div class="row">
         <div class="col-md-2">
@@ -41,30 +43,29 @@
     </div>
 
 
-{% if properties %}
-<div class="row">
-    {% for property in properties %}
-    <div class="col-lg-4 col-md-6">
-        <div class="card">
-            <div class="square-image-wrapper">
-                <img src="{{ property.image.url }}" class="square-image" alt="...">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ property.title }}</h5>
-                <p class="card-text">{{ property.property_location }}</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Price: </strong>${{ property.price }}</li>
-                <li class="list-group-item"> Owner: <a href="{% url 'propertease:profile' profile_id=property.owner.id %}">{{ property.owner.username }} </a></li>
-            </ul>
-            <div class="card-body">
-                <a href="{% url 'propertease:property_detail' profile_id=property.owner.id property_id=property.id %}" class="btn btn-primary">Details</a>
-                <!-- <a href="#" class="card-link">Another link</a> -->
+    {% if properties %}
+    <div class="row justify-content-center">
+        {% for property in properties %}
+        <div class="col-lg-4 col-md-6 d-flex justify-content-center">
+            <div class="card small-card" style="max-width: 300px;" id="cardio">
+                <div class="square-image-wrapper">
+                    <img src="{{ property.image.url }}" class="square-image" alt="...">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ property.title }}</h5>
+                    <p class="card-text">{{ property.property_location }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Price: </strong>${{ property.price }}</li>
+                    <li class="list-group-item">Owner: <a href="{% url 'propertease:profile' profile_id=property.owner.id %}">{{ property.owner.username }} </a></li>
+                </ul>
+                <div class="card-body text-center"> <!-- Add the "text-center" class -->
+                    <a href="{% url 'propertease:property_detail' profile_id=property.owner.id property_id=property.id %}" class="btn btn-primary">See more details</a>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 {% endif %}
 
 {% endblock %}

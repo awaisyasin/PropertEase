@@ -103,7 +103,7 @@ def thread_detail_view(request, thread_id):
     comment_form = CommentForm()
     return render(request, "propertease/thread-detail.html", {"thread": thread, "comments": comments, "comment_form": comment_form})
 
-
+@login_required
 def chat_endpoint_view(request, profile_id):
     logged_in_user = request.POST.get('logged_in_user')
     person_to_contact = request.POST.get('person_to_contact')
@@ -114,7 +114,7 @@ def chat_endpoint_view(request, profile_id):
     }
     return JsonResponse(response_data)
 
-
+@login_required
 def chat_redirect_view(request, profile_id):
     logged_in_user = request.GET.get('logged_in_user')
     person_to_contact = request.GET.get('person_to_contact')

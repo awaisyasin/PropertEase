@@ -25,6 +25,10 @@
   object-fit: cover; /* Maintain aspect ratio and fill the container */
 }
 
+.small-card {
+  max-width: 300px; /* Adjust the maximum width as per your requirement */
+}
+
 /* Media Query for Tablet View */
 @media (max-width: 992px) {
   .card {
@@ -36,6 +40,11 @@
 @media (max-width: 576px) {
   .card {
     flex-basis: 100%;
-
+  }
+  .small-card {
+    max-width: 20px;
+  }
+  #cardio {
+    width: 20px;
   }
 }

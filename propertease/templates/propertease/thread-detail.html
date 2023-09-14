@@ -33,7 +33,11 @@
 		<div id="comment-box">
 		{% csrf_token %}
 		{{ comment_form }}
+		{% if request.user.is_authenticated %}
 		<input type="submit" value="Submit">
+		{% else %}
+		<a href="{% url 'accounts:login' %}" class="btn btn-primary">Login to comment</a>
+		{% endif %}
 		</div>
 	</form>
 	<br>
